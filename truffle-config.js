@@ -1,3 +1,7 @@
+const HDWalletProvider = require('truffle-hdwallet-provider');
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim();
+
 module.exports = {
     networks: {
         development: {
@@ -12,6 +16,20 @@ module.exports = {
             port: 8555,
             gas: 0xfffffffffff,
             gasPrice: 0x01,
+        },
+        matic: {
+            provider: () => new HDWalletProvider(mnemonic, `https://rpc-mumbai.matic.today`),
+            network_id: 80001,
+            confirmations: 2,
+            timeoutBlocks: 200,
+            skipDryRun: true
+        },
+        kovan: {
+            provider: () => new HDWalletProvider(mnemonic, `https://kovan.infura.io/v3/5faa737957a641beaa7331f1b79e0224`),
+            network_id: 42,
+            gas: 10000000,
+            gasPrice: 25000000000,
+            timeoutBlocks: 200,
         },
     },
     // Configure your compilers
